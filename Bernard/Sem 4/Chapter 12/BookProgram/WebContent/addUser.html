@@ -1,0 +1,197 @@
+<head>
+<title>WebStocks: Add User</title>
+<SCRIPT LANGUAGE=JAVASCRIPT>
+<!--
+  function checkFields(myForm)
+  {
+    if(myForm.userID.value == "")
+    {
+      alert("Please enter a user id.");
+      myForm.userID.focus();
+    }
+    else
+    if(myForm.userFirstName.value == "")
+    {
+      alert("Please enter a first name.");
+      myForm.userFirstName.focus();
+    }
+    else
+    if(myForm.userLastName.value == "")
+    {
+      alert("Please enter a last name.");
+      myForm.userLastName.focus();
+    }
+    else
+    if(myForm.pswd1.value == "")
+    {
+      alert("Please enter a password.");
+      myForm.pswd1.focus();
+    }
+    else
+    if(myForm.pswd2.value == "")
+    {
+      alert("Please re-enter password to verify.");
+      myForm.pswd2.focus();
+    }
+    else
+    if(myForm.pswd1.value != myForm.pswd2.value)
+    {
+      alert("Please re-enter - passwords do not match.");
+      myForm.pswd1.value = "";
+      myForm.pswd2.value = "";
+      myForm.pswd1.focus();
+    }
+    else
+    if(myForm.autoExpires[1].checked && myForm.uses.value != "")
+    {
+      alert("Please check Auto Expires or delete value in Uses Left.");
+      myForm.uses.focus();
+    }
+    else
+    if(myForm.autoExpires[0].checked && myForm.uses.value == "")
+    {
+      alert("Please enter a number for Uses Left.");
+      myForm.uses.focus();
+    }
+    else
+    if(myForm.autoExpires[0].checked && isNaN(myForm.uses.value))
+    {
+      alert("Non-numeric entry invalid for Uses Left.");
+      myForm.uses.select();
+    }
+    else
+    {
+      myForm.WSaction.value = "addUser";
+      myForm.submit();
+    }
+  }
+//-->
+</SCRIPT>
+
+</head>
+<body text="#824423" onLoad="myForm.userID.focus()">
+
+<div align="center">
+  <center>
+<table border="0" cellspacing="0" width="55%" height="253" style="border-collapse: collapse" cellpadding="0">
+  <tr>
+  <td height="25">
+    <p align="center">
+    <font size="5">WebStocks</font>
+  </td>
+  </tr>
+  <tr>
+    <td width="42%" height="227">
+    <form name="myForm" method="POST" action="../webstocks/WebStocks">
+        <center>
+       <table border="0" width="636" height="123" style="border-collapse: collapse" bordercolor="#111111">
+          <tr>
+            <td height="41" align="center" colspan="7" width="621">
+               <b>Add New User</b>
+            </td>
+          </tr>
+
+          <tr>
+            <td height="35" align="left" width="101">&nbsp;</td>
+            <td align="left" width="107">
+               <b>User ID:</b>
+            </td>
+            <td height="35" align="left" colspan="4" width="394">
+              <input type="text" name="userID" size="20">
+            </td>
+            <td height="35" align="left" width="26">&nbsp;</td>
+          </tr>
+
+          <tr>
+            <td height="35" align="left" width="101">&nbsp;</td>
+            <td align="left" width="107">
+               <b>First Name:</b>
+            </td>
+            <td height="35" align="left" colspan="4" width="394" dir="ltr">
+              <input type="text" name="userFirstName" size="55">
+            </td>
+            <td height="35" align="left" width="26">&nbsp;</td>
+          </tr>
+
+          <tr>
+            <td height="35" align="left" width="101">&nbsp;</td>
+            <td align="left" width="107">
+               <b>Last Name:</b>
+            </td>
+            <td height="35" align="left" colspan="4" width="394">
+              <input type="text" name="userLastName" size="55">
+            </td>
+            <td height="35" align="left" width="26">&nbsp;</td>
+          </tr>
+
+          <tr>
+            <td height="35" align="left" width="101">&nbsp;</td>
+            <td align="left" width="107">
+               <b>Password:</b>
+            </td>
+            <td height="35" align="left" colspan="4" width="394">
+              <input type="password" name="pswd1" size="55">
+            </td>
+            <td height="35" align="left" width="26">&nbsp;</td>
+          </tr>
+
+          <tr>
+            <td height="35" align="left" width="101">&nbsp;</td>
+            <td align="left" valign="bottom" width="107">
+               <b>Re-enter<br>Password:</b>
+            </td>
+            <td height="35" align="left" valign="bottom" colspan="4" width="394">
+              <input type="password" name="pswd2" size="55">
+            </td>
+            <td height="35" align="left" width="26">&nbsp;</td>
+          </tr>
+
+          <tr>
+            <td height="35" align="left" width="101">&nbsp;</td>
+            <td align="left" width="107">
+               <b>Auto Expires:</b>
+            </td>
+            <td height="35" align="left" width="53">
+              <input type="radio" name="autoExpires" value="Yes" CHECKED><b>Yes</b>
+            </td>
+            <td height="35" align="left" width="83">
+              <input type="radio" name="autoExpires" value="No"><b>No</b>
+            </td>
+            <td height="35" align="left" width="275">
+              <b>Uses left: </b>
+              <input type="text" name="uses" size="5">
+            </td>
+            <td height="35" align="left" width="15">&nbsp;</td>
+            <td height="35" align="left" width="26">&nbsp;</td>
+          </tr>
+
+          <tr>
+            <td height="35" align="left" width="101">&nbsp;</td>
+            <td align="left" width="107">
+              <input type="checkbox" name="isAdmin" value="Yes"><b>Is Admin</b>
+            </td>
+            <td height="35" align="left" colspan="4" width="394">
+            </td>
+            <td height="35" align="left" width="26">&nbsp;</td>
+          </tr>
+          </table>
+
+          <table width="278">
+          <tr>
+            <td align="center" width="272" colspan="2">
+               <input type="button" value="Add User" onClick="checkFields(myForm)">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<!--               <input type="button" value="Cancel" onClick="history.back()">
+-->               <input type="submit" value="Cancel" onClick="form.action='mainForm.jsp'">
+             </td>
+          </tr>
+          </table>
+        </center>
+     </td>
+     <input type="hidden" name="WSaction">
+    </form>
+    </td>
+  </tr>
+</table>
+  </center>
+</div>
+</body>

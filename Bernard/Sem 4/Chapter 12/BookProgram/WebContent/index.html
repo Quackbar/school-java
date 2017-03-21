@@ -1,0 +1,86 @@
+<!--
+	Chapter 12
+	NA
+	NA
+	NA
+	NA
+-->
+<html>
+<head>
+	<title>WebStocks: User Log On</title>
+	 <script LANGUAGE = JAVASCRIPT>
+	 <!-- hide script from older browser
+	 	function validate(myForm){
+			if(myForm.userID.value == ""){
+				alert("Please enter user ID");
+				myForm.userID.focus();
+			}
+			else if(myForm.password.value == ""){
+				alert("Please enter a password.");
+				myForm.password.focus();
+			}
+			else
+				myForm.submit();
+	 	}
+	 //-->
+	 </script>
+</head>
+<body text = "#84423" onLoad = "document.logonScreen.userID.focus()">
+<hr>
+<table>
+  <tr>
+  	<td width = "33%" align "center">
+  		<img border = "0" src = "tickerScrn.wmf" width = "187" height = "170">
+  	</td>
+  	<td width = "33%">
+  	  <form name = "logonScreen" method = "POST" action ="../webstocks/WebStocks">
+  	  	<table width = "328" height = "206">
+  	  		<tr>
+  	  		  <td width = "328" align = "center" colspan = "3" height = "36">
+  	  		  	<font size = "6">WebStocks</font></td>
+  	  		</tr>
+  	  		<tr>
+  	  		  <td width = "328" align = "center" colspan = "3" height = "54">
+  	  		  	  <font size = 5>
+  	  		  	  Please Enter Your User ID <br>
+  	  		  	  and Password to Log On:</font>
+  	  		  </td>
+  	  		</tr>
+  	  		<tr>
+  	  		  <td width = "126" align = "right" height = "22">
+  	  		  	  <font size = "4">User ID:</font></td>
+  	  		  <td width = "6" height = "22">&nbsp;</td>
+  	  		  <td width = "196" height = "22">
+  	  		  	  <input type = "text" name = "userID" size = "20">
+  	  		  </td>
+  	  		</tr>
+  	  		<tr>
+  	  		  <td width = "126" align = "right" height = "19">
+  	  		      <font size = "4">Password:</font></td>
+  	  		  <td width = "6" height = "19">&nbsp;</td>
+  	  		  <td width = "196" height = "19">
+  	  		      <input type = "password" name = "password" size = "20">
+  	  		  </td>
+  	  		</tr>
+  	  		<tr>
+  	  		  <td align = "right" width = "126" height = "37">
+  	  		  	  <input type = "button" value = "Log on" onClick = "validate(logonScreen)">
+  	  		  </td>
+  	  		  <td width ="6" height="37">&nbsp;&nbsp;&nbsp;</td>
+  	  		  <td align ="left" width="196" height ="37">
+  	  		  	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  	  		  	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  	  		  	  <input type ="reset" value="Clear">
+  	  		  </td>
+  	  		</tr>
+  	  	  </table>
+  	  	</form>
+  	  </td>
+  	  <td width = "34%"><p align = "center">
+  	      <img border = "0" src = "stockListing.jpg" width = "239" height = "171">
+  	  </td>
+  	</tr>
+ </table>
+ <hr>
+   </body>
+ </html>

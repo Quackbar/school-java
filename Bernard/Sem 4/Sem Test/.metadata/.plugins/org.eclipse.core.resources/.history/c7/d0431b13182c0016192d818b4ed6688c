@@ -1,0 +1,24 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JFrame;
+
+public class AddGame extends JFrame implements ActionListener{
+
+	
+	
+	public AddGame(){
+		
+	}
+	
+	public void actionPerformed(ActionEvent e){
+		
+	}
+	
+	public static void main(String args[]){
+		AddGame ag = new AddGame();
+		ag.setVisible(true);
+		ag.setBounds(100,100,300,200);
+		ag.setTitle("Game Store");
+	}
+}

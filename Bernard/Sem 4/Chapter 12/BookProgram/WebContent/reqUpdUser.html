@@ -1,0 +1,61 @@
+<head>
+<title>WebStocks - Enter ID for User Update</title>
+<SCRIPT LANGUAGE=JAVASCRIPT>
+<!--
+  function popFields(myForm)
+  {
+    if(myForm.updUserID.value == "")
+    {
+      alert("Please enter a user id.");
+    }
+    else
+    {
+      myForm.WSaction.value = "reqUpdUser";
+      myForm.submit();
+    }
+  }
+//-->
+</SCRIPT>
+</head>
+<body text="#824423" onLoad="document.reqUpdUserForm.updUserID.focus()">
+<div align="center">
+  <center>
+<table border="0" cellspacing="0" width="55%" height="253" style="border-collapse: collapse" cellpadding="0">
+  <tr>
+  <td height="25">
+    <p align="center">
+    <font size="5">WebStocks</font>
+  </td>
+  </tr>
+  <tr>
+    <td width="42%" height="227">
+    <form name="reqUpdUserForm" method="POST" action="../webstocks/WebStocks">
+        <center>
+       <table border="0" width="461" height="123" style="border-collapse: collapse" bordercolor="#111111">
+          <tr>
+            <td height="84" align="center">
+               <b>Please Enter ID of User to Update:
+               </b>
+            <input type="text" name="updUserID" size="10"></td>
+            </td>
+          </tr>
+          <tr>
+            <td align="center">
+               &nbsp;&nbsp;
+               <input type="button" value="Update User" onClick="popFields(reqUpdUserForm)">
+               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<!--               <input type="button" value="Cancel" onClick="history.back()">
+-->               <input type="submit" value="Cancel" onClick="reqUpdUserForm.action='../mainForm.jsp'">
+             </td>
+          </tr>
+          </table>
+        </center>
+     <input type="hidden" name="WSaction"></td>
+    </form>
+    </td>
+  </tr>
+</table>
+  </center>
+</div>
+</body>

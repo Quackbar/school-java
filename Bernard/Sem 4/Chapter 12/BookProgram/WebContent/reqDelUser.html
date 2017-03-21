@@ -1,0 +1,62 @@
+<head>
+<title>WebStocks - Enter ID for User Delete</title>
+<SCRIPT LANGUAGE=JAVASCRIPT>
+<!--
+  function checkFields(myForm)
+  {
+    if(myForm.delUserID.value == "")
+    {
+      alert("Please enter a user id.");
+      myForm.delUserID.focus();
+    }
+    else
+    {
+      myForm.WSaction.value = "reqDelUser";
+      myForm.submit();
+    }
+  }
+//-->
+</SCRIPT>
+</head>
+<body text="#824423" onLoad="document.reqDelUserForm.delUserID.focus()">
+<div align="center">
+  <center>
+<table border="0" cellspacing="0" width="55%" height="253" style="border-collapse: collapse" cellpadding="0">
+  <tr>
+  <td height="25">
+    <p align="center">
+    <font size="5">WebStocks</font>
+  </td>
+  </tr>
+  <tr>
+    <td width="42%" height="227">
+    <form name="reqDelUserForm" method="POST" action="../webstocks/WebStocks">
+        <center>
+       <table border="0" width="461" height="123" style="border-collapse: collapse" bordercolor="#111111">
+          <tr>
+            <td height="84" align="center">
+               <b>Please Enter ID of User to Delete:
+               </b>
+            <input type="text" name="delUserID" size="10"></td>
+            </td>
+          </tr>
+          <tr>
+            <td align="center">
+               &nbsp;&nbsp;
+               <input type="button" value="Delete User" onClick="checkFields(reqDelUserForm)">
+               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<!--               <input type="button" value="Cancel" onClick="history.back()">
+-->               <input type="submit" value="Cancel" onClick="form.action='../mainForm.jsp'">
+             </td>
+          </tr>
+          </table>
+        </center>
+     <input type="hidden" name="WSaction"></td>
+    </form>
+    </td>
+  </tr>
+</table>
+  </center>
+</div>
+</body>
