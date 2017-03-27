@@ -9,16 +9,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import static java.nio.file.StandardOpenOption.CREATE;
-import static java.nio.file.StandardOpenOption.READ;
-import static java.nio.file.StandardOpenOption.WRITE;
+import static java.nio.file.StandardOpenOption.*;
 
-/**
- * Created by bkintzing on 3/16/2017.
- */
+
 public class DuckDynasty extends JFrame implements ActionListener{
 
-    JLabel idL = new JLabel("Enter ducky ID: ");
+    JLabel idL = new JLabel("Enter ducky ID(XXX): ");
     JLabel nameL = new JLabel("Enter ducky name: ");
     JLabel colorL = new JLabel("Enter ducky color: ");
     JLabel smackL = new JLabel("Enter smack of: ");
@@ -34,24 +30,30 @@ public class DuckDynasty extends JFrame implements ActionListener{
     JButton submit = new JButton("Submit");
     JButton view = new JButton("View Duckies");
 
-    static Path path = Paths.get(".\\ducky.txt");
+    static Path path = Paths.get("ducky.txt");
 
-    String ID_FORMAT = "000";
+    String ID_FORMAT = "XXX";
     String NAME_FORMAT = "          ";
+    int nameLength = NAME_FORMAT.length();
     String COLOR_FORMAT = "          ";
+    int colorLength = COLOR_FORMAT.length();
     String SMACK_FORMAT = "          ";
+    int smackLength = SMACK_FORMAT.length();
     String delimiter = ",";
+
+    StringBuilder sbName;
+    StringBuilder sbColor;
+    StringBuilder sbSmack;
 
     String s = ID_FORMAT + delimiter + NAME_FORMAT + delimiter + COLOR_FORMAT + delimiter + SMACK_FORMAT + System.getProperty("line.separator");
     int RESIZE = s.length();
 
-    String name, color, smack;
+    String name, color, smack, idS;
     int id;
-    String EMPTY_ACCT = "000";
+    String EMPTY_ACCT = "XXX";
     String[] array;
-    FileChannel fc = null;
 
-    //createEmptyFile(path, s);
+    InputStream iStream;
 
     public DuckDynasty(){
         this.setLayout(new BorderLayout());
@@ -75,15 +77,34 @@ public class DuckDynasty extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e){
         if(e.getActionCommand().equals("Submit")){
             boolean thing = false;
-            id = Integer.parseInt(idF.getText());
+            try {
+                id = Integer.parseInt(idF.getText());
+            }catch (NumberFormatException a){
+                thing = true;
+            }
+            idS = idF.getText();
+            name = nameF.getText();
+            sbName = new StringBuilder(name);
+            sbName.setLength(nameLength);
+            color = colorF.getText();
+            sbColor = new StringBuilder(color);
+            sbColor.setLength(colorLength);
+            smack = smackF.getText();
+            sbSmack = new StringBuilder(smack);
+            sbSmack.setLength(smackLength);
+
             try{
-                InputStream iStream = new BufferedInputStream(Files.newInputStream(path));
+                iStream = new BufferedInputStream(Files.newInputStream(path));
+            }catch(Exception a){
+                createEmptyFile(path, s);
+            }
+            try{
                 BufferedReader reader = new BufferedReader(new InputStreamReader(iStream));
                 s = reader.readLine();
                 while(s != null){
                     array = s.split(delimiter);
-                    System.out.println(array[0] + id);
-                    if(array[0].equals(id)){
+                    System.out.println(array[0] + idS);
+                    if(array[0].equals(idS)){
                         thing = true;
                     }
                     s = reader.readLine();
@@ -95,21 +116,22 @@ public class DuckDynasty extends JFrame implements ActionListener{
             if(thing){
                 JOptionPane.showMessageDialog(null, "Not a valid ID");
             }
-            else {
+            else{
                 idF.setText("");
                 idF.requestFocus();
-                name = nameF.getText();
                 nameF.setText("");
-                color = colorF.getText();
                 colorF.setText("");
-                smack = smackF.getText();
                 smackF.setText("");
-                s = id + delimiter + name + delimiter + color + delimiter + smack + System.getProperty("line.separator");
+                s = idS + delimiter + sbName + delimiter + sbColor + delimiter + sbSmack + System.getProperty("line.separator");
+                System.out.println(s);
+                byte data[] = s.getBytes();
+                ByteBuffer buffer = ByteBuffer.wrap(data);
                 try {
                     FileChannel fc = (FileChannel)Files.newByteChannel(path, WRITE);
                     fc.position(id * RESIZE);
+                    fc.write(buffer);
                     fc.close();
-                } catch (Exception a) {
+                }catch(Exception a) {
                     a.printStackTrace();
                 }
             }
@@ -134,7 +156,7 @@ public class DuckDynasty extends JFrame implements ActionListener{
     }
 
     public static void createEmptyFile(Path file, String s) {
-        final int NUMRECS = 100;
+        final int NUMRECS = 1000;
         try{
             OutputStream outputStr = new BufferedOutputStream(Files.newOutputStream(file,CREATE));
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStr));
@@ -143,7 +165,7 @@ public class DuckDynasty extends JFrame implements ActionListener{
             writer.close();
         }
         catch (Exception e){
-            System.out.println(e.getStackTrace());
+            System.out.println("Error message: " + e);
         }
     }
 
@@ -154,5 +176,4 @@ public class DuckDynasty extends JFrame implements ActionListener{
         d.setTitle("Input Duckies");
         d.setSize(400,150);
     }
-
 }
