@@ -5,7 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.*;
 
-public class JShapes2D extends JPanel{
+public class JShapes2D extends JPanel {
     public void paintComponent(Graphics gr) {
         super.paintComponent(gr);
         Graphics2D gr2D = (Graphics2D)gr;
