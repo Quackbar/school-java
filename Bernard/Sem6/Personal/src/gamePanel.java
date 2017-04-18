@@ -36,7 +36,7 @@ public class gamePanel extends JPanel{
     Integer[] goombaX = new Integer[5];
     int[] goombaY = {0, 0, 0, 0, 0};
 
-    Boolean[][] wallOccupied = new Boolean[151][67];
+    String[][] occupied = new String[151][67];
 
     public gamePanel(){
         this.add(stats);
@@ -55,7 +55,7 @@ public class gamePanel extends JPanel{
         catch(Exception e){}
         for(int row = 0; row < 151; row++){
             for(int col = 0; col < 67; col++){
-                wallOccupied[row][col] = false;
+                occupied[row][col] = null;
             }
         }
         startTimer();
