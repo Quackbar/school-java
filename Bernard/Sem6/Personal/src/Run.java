@@ -20,7 +20,7 @@ public class Run extends JFrame implements KeyListener{
         if((e.getKeyCode() == 87) || (e.getKeyCode() == 38)){ //W and Up
             if(!(game.charY == 0)){
                 game.charY -= 10;
-                if(game.wallOccupied[game.charX /10][game.charY / 10])
+                if(game.occupied[game.charX /10][game.charY / 10].equals(null))
                     game.charY +=10;
             }
             game.repaint();
@@ -28,7 +28,7 @@ public class Run extends JFrame implements KeyListener{
         else if((e.getKeyCode() == 65) || (e.getKeyCode() == 37)){ //A and Left
             if(!(game.charX == 0)){
                 game.charX -= 10;
-                if(game.wallOccupied[game.charX /10][game.charY / 10])
+                if(game.occupied[game.charX /10][game.charY / 10].equals(null))
                     game.charX +=10;
             }
             game.repaint();
@@ -36,7 +36,7 @@ public class Run extends JFrame implements KeyListener{
         else if((e.getKeyCode() == 83) || (e.getKeyCode() == 40)){ //S and Down
             if(!(game.charY == 670)){
                 game.charY += 10;
-                if(game.wallOccupied[game.charX /10][game.charY / 10])
+                if(game.occupied[game.charX /10][game.charY / 10].equals(null))
                     game.charY -=10;
             }
             game.repaint();
@@ -44,7 +44,7 @@ public class Run extends JFrame implements KeyListener{
         else if((e.getKeyCode() == 68) || (e.getKeyCode() == 39)){ //D and Right
             if(!(game.charX == 1510)){
                 game.charX += 10;
-                if(game.wallOccupied[game.charX /10][game.charY / 10])
+                if(game.occupied[game.charX /10][game.charY / 10].equals(null))
                     game.charX -=10;
             }
             game.repaint();
@@ -52,7 +52,7 @@ public class Run extends JFrame implements KeyListener{
         else if(e.getKeyCode() == 90){ //Z Wall
             if(!(game.walls == 0)){
                 if(game.wallX.size() == 0){
-                    game.wallOccupied[game.charX /10][game.charY / 10] = true;
+                    game.occupied[game.charX /10][game.charY / 10] = "wall";
                     createWall();
                 }
                 else{
@@ -64,7 +64,7 @@ public class Run extends JFrame implements KeyListener{
                         }
                     }
                     if(!filled){
-                        game.wallOccupied[game.charX /10][game.charY / 10] = true;
+                        game.occupied[game.charX /10][game.charY / 10] = "wall";
                         createWall();
                     }
                 }
@@ -89,7 +89,6 @@ public class Run extends JFrame implements KeyListener{
                 }
             }
         }
-        //System.out.println(e.getKeyCode());
     }
 
     public boolean checkOccupied(int i){
