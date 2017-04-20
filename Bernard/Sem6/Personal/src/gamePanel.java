@@ -8,7 +8,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class gamePanel extends JPanel{
@@ -16,7 +15,7 @@ public class gamePanel extends JPanel{
     //Stats
     int health = 100, walls = 20, doors = 1, days = 1;
     boolean day = true;
-    JLabel stats = new JLabel("   Health: " + health + "     Walls(Z): " + walls + "    Doors(X): " + doors + "    Day: " + days + "    Time: " + day + " 0:00:30");
+    JLabel stats = new JLabel("Health: " + health + "     Walls(Z): " + walls + "    Doors(X): " + doors + "    Day: " + days);
 
     //Pictures
     BufferedImage grid, character;
@@ -35,8 +34,13 @@ public class gamePanel extends JPanel{
     String[][] occupied = new String[151][67];
 
     //What the goomba's need
-    Random random = new Random();
-    boolean direction, positive, empty, goombaRepaint;
+    int dir, minDist = 3, maxDist = 15;
+    boolean safe, goombaRepaint;
+    int[] turn = new int[5];
+    enum directions{
+        up, down, right, left, upRight, upLeft, downRight, downLeft
+    }
+    directions[] direction = new directions[5];
 
     public gamePanel(){
         this.add(stats);
@@ -59,10 +63,14 @@ public class gamePanel extends JPanel{
             }
         } catch(Exception e){System.out.println("Could not create goomba: " + e.getStackTrace());}
 
-        for(int row = 0; row < 151; row++){
+        for(int row = 0; row < 151; row++){ //Populate occupied array with "empty"
             for(int col = 0; col < 67; col++){
                 occupied[row][col] = "empty";
             }
+        }
+
+        for(int i = 0; i < turn.length; i++){
+            goombaTurn(i);
         }
     }
 
@@ -71,29 +79,160 @@ public class gamePanel extends JPanel{
         return Arrays.stream(arr).anyMatch(item::equals);
     }
 
-    public void createGoombaLocation(int i){
-        empty = false;
-        while(!empty){
-            direction = random.nextBoolean(); //true = left-right, false = up-down
-            positive = random.nextBoolean(); // true = right-down, false = left-up
-            if(direction){ //left-right
-                if(positive) //right
-                    goombaX[i] += 10;
-                else //left
-                    goombaX[i] -= 10;
-            } else{ //up-down
-                if(positive) //down
-                    goombaY[i] += 10;
-                else //up
-                    goombaY[i] -= 10;
-            }
-            if((goombaX[i] < 0) || (goombaX[i] > 1500) || (goombaY[i] < 0) || goombaY[i] > 660) //Check if goomba is out of bounds
-                empty = false;
-            else{
-                if(occupied[goombaX[i] / 10][goombaY[i] / 10].equals("empty"))
-                    empty = true;
-            }
+    public void goombaTurn(int i){ //Change turn length and change direction
+        turn[i] = ThreadLocalRandom.current().nextInt(minDist, maxDist + 1);
+        dir = ThreadLocalRandom.current().nextInt(0, 7 + 1);
+        System.out.print(dir);
+        if(i == 4)
+            System.out.println();
+        if(dir == 0) //up
+            direction[i] = directions.up;
+        else if(dir == 1) //down
+            direction[i] = directions.down;
+        else if(dir == 2) //right
+            direction[i] = directions.right;
+        else if(dir == 3) //left
+            direction[i] = directions.left;
+        else if(dir == 4) //upRight
+            direction[i] = directions.upRight;
+        else if(dir == 5) //upLeft
+            direction[i] = directions.upLeft;
+        else if(dir == 6) //downRight
+            direction[i] = directions.downRight;
+        else if(dir == 7) //downLeft
+            direction[i] = directions.downLeft;
+    }
+
+    public void createGoombaLocation(int i){ //Algorithm for moving the goomba
+        if(turn[i] == 0){
+            goombaTurn(i);
         }
+        turn[i] -= 1;
+        safe = false; //safe = nothing present in the location of move
+        while(!safe){
+            if(direction[i] == directions.up){ //up
+                goombaY[i] -= 10;
+                if(validMove(i)){
+                    occupied[goombaX[i] / 10][goombaY[i] / 10] = "goomba";
+                    occupied[goombaX[i] / 10][(goombaY[i] + 10) / 10] = "empty";
+                    safe = true;
+                }
+                else{
+                    goombaY[i] += 10;
+                    while(direction[i] == directions.up)
+                        goombaTurn(i);
+                }
+            }
+            else if(direction[i] == directions.down){ //down
+                goombaY[i] += 10;
+                if(validMove(i)){
+                    occupied[goombaX[i] / 10][goombaY[i] / 10] = "goomba";
+                    occupied[goombaX[i] / 10][(goombaY[i] - 10) / 10] = "empty";
+                    safe = true;
+                }
+                else{
+                    goombaY[i] -= 10;
+                    while(direction[i] == directions.down)
+                        goombaTurn(i);
+                }
+            }
+            else if(direction[i] == directions.right){ //right
+                goombaX[i] += 10;
+                if(validMove(i)){
+                    occupied[goombaX[i] / 10][goombaY[i] / 10] = "goomba";
+                    occupied[(goombaX[i] -= 10) / 10][goombaY[i] / 10] = "empty";
+                    safe = true;
+                }
+                else{
+                    goombaX[i] -= 10;
+                    while(direction[i] == directions.right)
+                        goombaTurn(i);
+                }
+            }
+            else if(direction[i] == directions.left){ //left
+                goombaX[i] -= 10;
+                if(validMove(i)){
+                    occupied[goombaX[i] / 10][goombaY[i] / 10] = "goomba";
+                    occupied[(goombaX[i] += 10) / 10][goombaY[i] / 10] = "empty";
+                    safe = true;
+                }
+                else{
+                    goombaX[i] += 10;
+                    while(direction[i] == directions.left)
+                        goombaTurn(i);
+                }
+            }
+            else if(direction[i] == directions.upRight){
+                goombaX[i] += 10;
+                goombaY[i] -= 10;
+                if(validMove(i)){
+                    occupied[goombaX[i] / 10][goombaY[i] / 10] = "goomba";
+                    occupied[(goombaX[i] -= 10) / 10][(goombaY[i] += 10) / 10] = "empty";
+                    safe = true;
+                }
+                else{
+                    goombaX[i] -= 10;
+                    goombaY[i] += 10;
+                    while(direction[i] == directions.upRight)
+                        goombaTurn(i);
+                }
+            }
+            else if(direction[i] == directions.upLeft){
+                goombaX[i] -= 10;
+                goombaY[i] -= 10;
+                if(validMove(i)){
+                    occupied[goombaX[i] / 10][goombaY[i] / 10] = "goomba";
+                    occupied[(goombaX[i] += 10) / 10][(goombaY[i] += 10) / 10] = "empty";
+                    safe = true;
+                }
+                else{
+                    goombaX[i] += 10;
+                    goombaY[i] += 10;
+                    while(direction[i] == directions.upLeft)
+                        goombaTurn(i);
+                }
+            }
+            else if(direction[i] == directions.downRight){
+                goombaX[i] += 10;
+                goombaY[i] += 10;
+                if(validMove(i)){
+                    occupied[goombaX[i] / 10][goombaY[i] / 10] = "goomba";
+                    occupied[(goombaX[i] -= 10) / 10][(goombaY[i] -= 10) / 10] = "empty";
+                    safe = true;
+                }
+                else{
+                    goombaX[i] -= 10;
+                    goombaY[i] -= 10;
+                    while(direction[i] == directions.downRight)
+                        goombaTurn(i);
+                }
+            }
+            else if(direction[i] == directions.downLeft){
+                goombaX[i] -= 10;
+                goombaY[i] += 10;
+                if(validMove(i)){
+                    occupied[goombaX[i] / 10][goombaY[i] / 10] = "goomba";
+cd Co                       occupied[(goombaX[i] += 10) / 10][(goombaY[i] -= 10) / 10] = "empty";
+                    safe = true;
+                }
+                else{
+                    goombaX[i] += 10;
+                    goombaY[i] -= 10;
+                    while(direction[i] == directions.downLeft)
+                        goombaTurn(i);
+                }
+            }
+
+        }
+    }
+
+    public boolean validMove(int i){
+        if((goombaX[i] < 0) || (goombaX[i] > 1500) || (goombaY[i] < 0) || goombaY[i] > 660) //Check if goomba is out of bounds
+           return false;
+        else if(!occupied[goombaX[i] / 10][goombaY[i] / 10].equals("empty")) //Check if location is alredy filled
+            return false;
+        else
+            return true;
     }
 
     public void paintComponent(Graphics g){

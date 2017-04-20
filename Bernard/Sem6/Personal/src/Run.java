@@ -111,7 +111,7 @@ public class Run extends JFrame implements KeyListener{
             else
                 return true;
         }
-        else{ // i is not out of bounds for wall or door
+        else{ //i is not out of bounds for wall or door
             if((game.doorX.get(i) == game.charX) && (game.doorY.get(i) == game.charY))
                 return false;
             else if((game.wallX.get(i) == game.charX) && (game.wallY.get(i) == game.charY))
@@ -139,8 +139,8 @@ public class Run extends JFrame implements KeyListener{
     public void startTimer(){
         timer.scheduleAtFixedRate(new TimerTask(){
             public void run(){
-                game.repaint();
                 game.goombaRepaint = true;
+                game.repaint();
             }
         }, 0, 100);
     }
