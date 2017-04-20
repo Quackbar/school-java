@@ -73,7 +73,7 @@ public class BaseGame extends JFrame implements ActionListener, Activator, path
 		}
 		else if(e.getSource() == embarkButton)
 		{
-			if(g.getFuel() >= 2000&&g.getEnergy() >= 80000000)
+			if(g.getFuel() >= 10&&g.getEnergy() >= 10)
 			{
 				Ship s = new Ship();
 				g.setGTG(true);
