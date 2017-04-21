@@ -23,35 +23,19 @@ public class Run extends JFrame implements KeyListener{
     public void keyTyped(KeyEvent e){}
     public void keyPressed(KeyEvent e){
         if((e.getKeyCode() == 87) || (e.getKeyCode() == 38)){ //W and Up
-            if(!(game.charY == 0)){
-                game.charY -= 10;
-                if(!game.occupied[game.charX /10][game.charY / 10].equals("empty"))
-                    game.charY +=10;
-            }
+            moveCharacter(true, -10);
             game.repaint();
         }
         else if((e.getKeyCode() == 65) || (e.getKeyCode() == 37)){ //A and Left
-            if(!(game.charX == 0)){
-                game.charX -= 10;
-                if(!game.occupied[game.charX /10][game.charY / 10].equals("empty"))
-                    game.charX +=10;
-            }
+            moveCharacter(false, -10);
             game.repaint();
         }
         else if((e.getKeyCode() == 83) || (e.getKeyCode() == 40)){ //S and Down
-            if(!(game.charY == 670)){
-                game.charY += 10;
-                if(!game.occupied[game.charX /10][game.charY / 10].equals("empty"))
-                    game.charY -=10;
-            }
+            moveCharacter(true, 10);
             game.repaint();
         }
         else if((e.getKeyCode() == 68) || (e.getKeyCode() == 39)){ //D and Right
-            if(!(game.charX == 1510)){
-                game.charX += 10;
-                if(!game.occupied[game.charX /10][game.charY / 10].equals("empty"))
-                    game.charX -=10;
-            }
+           moveCharacter(false, 10);
             game.repaint();
         }
         else if(e.getKeyCode() == 90){ //Z Wall
@@ -98,6 +82,26 @@ public class Run extends JFrame implements KeyListener{
         }
     }
 
+    public void moveCharacter(boolean vertical, int amount){
+        if(vertical){
+            if(validMove())
+                game.charY += amount;
+        }
+        else{
+            if(validMove())
+                game.charX += amount;
+        }
+    }
+
+    public boolean validMove(){
+        if((game.charX < 0) || (game.charX > 1500) || (game.charY < 0) || game.charY > 660) //Check if goomba is out of bounds
+            return false;
+        else if(!(game.occupied[game.charX / 10][game.charY / 10].equals("empty"))) //Check if location is alredy filled
+            return false;
+        else
+            return true;
+    }
+
     public boolean checkOccupied(int i){
         if((i >= game.doorX.size()) || (game.doorX.size() == 0)){ //i is out of bounds for doors
             if((game.wallX.get(i) == game.charX) && (game.wallY.get(i) == game.charY))
@@ -139,7 +143,8 @@ public class Run extends JFrame implements KeyListener{
     public void startTimer(){
         timer.scheduleAtFixedRate(new TimerTask(){
             public void run(){
-                game.goombaRepaint = true;
+                for(int i = 0; i < game.goomba.length; i++)
+                    game.createGoombaLocation(i);
                 game.repaint();
             }
         }, 0, 100);
