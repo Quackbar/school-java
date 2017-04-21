@@ -163,6 +163,17 @@ public class gamePanel extends JPanel{
             dirToChar = directions.downRight;
             return true;
         }
+        else if((charX - goombaX[i] >= -100) && (charY - goombaY[i] <= 100) && (charX - goombaX[i] < 0) && (charY - goombaY[i] < 0)){ //Goomba i sUpRight of Char
+            dirToChar = directions.downLeft;
+            return true;
+        }
+        else if((charX - goombaX[i] >= -100) && (charY - goombaY[i] <= 100) && (charX - goombaX[i] < 0) && (charY - goombaY[i] < 0)){ //Goomba i sUpRight of Char
+            dirToChar = directions.downLeft;
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     public boolean validMove(int i){
