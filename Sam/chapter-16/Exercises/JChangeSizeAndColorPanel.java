@@ -1,6 +1,3 @@
-/**
- * Created by bkintzing on 4/14/2017.
- */
 import javax.swing.*;
 import java.awt.*;
 import java.awt.Color;
