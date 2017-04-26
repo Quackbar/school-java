@@ -1,6 +1,3 @@
-/**
- * Created by bernard on 4/16/17.
- */
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
