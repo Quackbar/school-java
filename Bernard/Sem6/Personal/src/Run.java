@@ -10,11 +10,11 @@ import java.util.TimerTask;
 public class Run extends JFrame implements KeyListener{
 
     gamePanel game = new gamePanel();
+    runIntro intro = new runIntro();
 
     Timer timer = new Timer();
 
     public Run(){
-        this.add(game);
         addKeyListener(this);
         startTimer();
     }
@@ -140,6 +140,7 @@ public class Run extends JFrame implements KeyListener{
         game.stats.setText("   Health: " + game.health + "     Walls(Z): " + game.walls + "    Doors(X): " + game.doors + "    Day: " + game.days + "    Time: " + game.day);
         repaint();
     }
+
     public void startTimer(){
         timer.scheduleAtFixedRate(new TimerTask(){
             public void run(){
@@ -149,11 +150,38 @@ public class Run extends JFrame implements KeyListener{
             }
         }, 0, 100);
     }
-    public static void main(String[]  args){
+
+    public void runAnimation(){
+        this.add(intro);
+        for(int i = -200; i < 250; i++){
+            intro.viperY = i;
+            intro.repaint();
+            try{
+                Thread.sleep(6);
+            }catch(Exception e){System.out.println("Trouble sleeping");}
+        }
+        intro.landed = true;
+        for(int i = 150; i < 200; i++){
+            intro.animCharX = i;
+            intro.repaint();
+            try{
+                Thread.sleep(10);
+            }catch(Exception e){System.out.println("Trouble sleeping");}
+        }
+        this.remove(intro);
+        this.add(game);
+        this.validate();
+        this.repaint();
+//        game.repaint();
+    }
+
+    public static void main(String[] args){
         Run m = new Run();
         m.setVisible(true);
         m.setSize(1920, 1080);
         m.setTitle("My Title");
         m.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        m.runAnimation();
+
     }
 }

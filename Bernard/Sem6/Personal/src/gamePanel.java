@@ -18,11 +18,11 @@ public class gamePanel extends JPanel{
     JLabel stats = new JLabel("Health: " + health + "     Walls(Z): " + walls + "    Doors(X): " + doors + "    Day: " + days);
 
     //Pictures
-    BufferedImage grid, character;
+    BufferedImage grid, character, viper;
     BufferedImage[] goomba = new BufferedImage[5];
 
     //Locations (Grid is 0,0 to 1510,670
-    int charX = 700, charY = 400;
+    int charX = 0, charY = 250;
     ArrayList<Integer> wallX = new ArrayList<>();
     ArrayList<Integer> wallY = new ArrayList<>();
     ArrayList<Integer> doorX = new ArrayList<>();
@@ -53,6 +53,10 @@ public class gamePanel extends JPanel{
         try{ //Grid
             grid = ImageIO.read(new File("./Pictures/grid.png"));
         } catch(Exception e){System.out.println("Could not create grid: " + e.getStackTrace());}
+
+        try{ //Ship
+            viper = ImageIO.read(new File("./Pictures/viper.gif"));
+        } catch(Exception e){System.out.println("Could not create viper: " + e.getStackTrace());}
 
         try{ //Character
             character = ImageIO.read(new File("./Pictures/character.png"));
@@ -112,68 +116,100 @@ public class gamePanel extends JPanel{
         turn[i] -= 1;
 
         while(!safe){
-            if(inRange(i)){
+            if(inRange(i, 20))
+                blowGoomba(i);
+            else if(inRange(i, 200))
+                direction[i] = dirToChar;
 
+            if(direction[i] == directions.up){
+                vertical = -10;
+                horizontal = 0;
             }
-            else{
-                if(direction[i] == directions.up){
-                    vertical = -10;
-                    horizontal = 0;
-                } else if(direction[i] == directions.down){
-                    vertical = 10;
-                    horizontal = 0;
-                } else if(direction[i] == directions.right){
-                    vertical = 0;
-                    horizontal = 10;
-                } else if(direction[i] == directions.left){
-                    vertical = 0;
-                    horizontal = -10;
-                } else if(direction[i] == directions.upRight){
-                    vertical = -10;
-                    horizontal = 10;
-                } else if(direction[i] == directions.upLeft){
-                    vertical = -10;
-                    horizontal = -10;
-                } else if(direction[i] == directions.downRight){
-                    vertical = 10;
-                    horizontal = 10;
-                } else if(direction[i] == directions.downLeft){
-                    vertical = 10;
-                    horizontal = -10;
-                }
-                goombaY[i] += vertical;
-                goombaX[i] += horizontal;
-                if(validMove(i)){
-                    occupied[goombaX[i] / 10][goombaY[i] / 10] = "goomba";
-                    occupied[(goombaX[i] - horizontal) / 10][(goombaY[i] - vertical) / 10] = "empty";
-                    safe = true;
-                } else{
-                    goombaY[i] -= vertical;
-                    goombaX[i] -= horizontal;
-                    directions check = direction[i];
-                    while(direction[i] == check)
-                        goombaTurn(i);
-                }
+            else if(direction[i] == directions.down){
+                vertical = 10;
+                horizontal = 0;
             }
+            else if(direction[i] == directions.right){
+                vertical = 0;
+                horizontal = 10;
+            }
+            else if(direction[i] == directions.left){
+                vertical = 0;
+                horizontal = -10;
+            }
+            else if(direction[i] == directions.upRight){
+                vertical = -10;
+                horizontal = 10;
+            }
+            else if(direction[i] == directions.upLeft){
+                vertical = -10;
+                horizontal = -10;
+            }
+            else if(direction[i] == directions.downRight){
+                vertical = 10;
+                horizontal = 10;
+            }
+            else if(direction[i] == directions.downLeft){
+                vertical = 10;
+                horizontal = -10;
+            }
+            goombaY[i] += vertical;
+            goombaX[i] += horizontal;
+            if(validMove(i)){
+                occupied[goombaX[i] / 10][goombaY[i] / 10] = "goomba";
+                occupied[(goombaX[i] - horizontal) / 10][(goombaY[i] - vertical) / 10] = "empty";
+                safe = true;
+            } else{
+                goombaY[i] -= vertical;
+                goombaX[i] -= horizontal;
+                directions check = direction[i];
+                while(direction[i] == check)
+                    goombaTurn(i);
+            }
+
         }
     }
 
-    public boolean inRange(int i){
-        if((charX - goombaX[i] <= 100) && (charY - goombaY[i] <= 100) && (charX - goombaX[i] > 0) && (charY - goombaY[i] < 0)){ //Goomba is UpLeft of Char
+    public boolean inRange(int i, int range){
+        if((charX - goombaX[i] <= range) && (charX - goombaX[i] >= 0) && (charY - goombaY[i] >= -range)  && (charY - goombaY[i] <= 0)){ //Goomba is UpLeft of Char
             dirToChar = directions.downRight;
             return true;
         }
-        else if((charX - goombaX[i] >= -100) && (charY - goombaY[i] <= 100) && (charX - goombaX[i] < 0) && (charY - goombaY[i] < 0)){ //Goomba i sUpRight of Char
+        else if((charX - goombaX[i] >= -range) && (charX - goombaX[i] <= 0) && (charY - goombaY[i] >= -range)  && (charY - goombaY[i] <= 0)){ //Goomba is UpRight of Char
             dirToChar = directions.downLeft;
             return true;
         }
-        else if((charX - goombaX[i] >= -100) && (charY - goombaY[i] <= 100) && (charX - goombaX[i] < 0) && (charY - goombaY[i] < 0)){ //Goomba i sUpRight of Char
-            dirToChar = directions.downLeft;
+        else if((charX - goombaX[i] <= range) && (charX - goombaX[i] >= 0)&& (charY - goombaY[i] <= range)  && (charY - goombaY[i] >= 0)){ //Goomba is DownLeft of Char
+            dirToChar = directions.upRight;
             return true;
         }
-        else{
+        else if((charX - goombaX[i] >= -range) && (charX - goombaX[i] <= 0)&& (charY - goombaY[i] <= range)  && (charY - goombaY[i] >= 0)){ //Goomba is DownLeft of Char
+            dirToChar = directions.upLeft;
+            return true;
+        }
+        else if((charX - goombaX[i] <= range) && (charX - goombaX[i] >= 0)){ //Goomba is Up from Char
+            dirToChar = directions.down;
+            return true;
+        }
+        else if((charX - goombaX[i] >= -range) && (charX - goombaX[i] <= 0)){ //Goomba is Down from Char
+            dirToChar = directions.up;
+            return true;
+        }
+        else if((charY - goombaY[i] <= range) && (charY - goombaY[i] >= 0)){ //Goomba is Left of Char
+            dirToChar = directions.right;
+            return true;
+        }
+        else if((charX - goombaX[i] >= -range) && (charX - goombaX[i] <= 0)){ //Goomba is Right of Char
+            dirToChar = directions.left;
+            return true;
+        }
+        else
             return false;
-        }
+
+    }
+
+    public void blowGoomba(int i){
+        health -= 20;
     }
 
     public boolean validMove(int i){
@@ -188,6 +224,7 @@ public class gamePanel extends JPanel{
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.drawImage(grid, 200, 200, null);
+        g.drawImage(viper, 0, 250, null);
         for(int i = 0; i < wallX.size(); i++){ //Draw walls
             g.setColor(Color.BLACK);
             g.fillRect(wallX.get(i) + 200, wallY.get(i) + 200, 11, 11);
