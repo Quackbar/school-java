@@ -14,8 +14,8 @@ public class goomba{
     character character = new character();
     
     //Locations (Grid is 0,0 to 1510,670
-    Integer[] x = new Integer[5];
-    int[] y = {50, 50, 50, 50, 50};
+    static Integer[] x = new Integer[5];
+    static int[] y = {50, 50, 50, 50, 50};
     int[] turn = new int[5];
 
     BufferedImage[] image = new BufferedImage[5];

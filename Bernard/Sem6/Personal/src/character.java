@@ -11,7 +11,7 @@ public class character{
     map map = new map();
 
     //Locations (Grid is 0,0 to 1510,670
-    int x = 0, y = 250;
+    static int x = 0, y = 250;
 
     //Buffered Image
     BufferedImage image;
