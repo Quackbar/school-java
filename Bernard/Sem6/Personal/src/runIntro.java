@@ -8,8 +8,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 public class runIntro extends JPanel{
+
     BufferedImage viper, animCharacter;
-    int viperX = 0, viperY = 0, animCharX = 150, animCharY = 450;
+    int x = 0, y = 0, animCharX = 150, animCharY = 450;
     boolean landed = false;
 
     public runIntro(){
@@ -24,7 +25,7 @@ public class runIntro extends JPanel{
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        g.drawImage(viper, viperX, viperY, null);
+        g.drawImage(viper, x, y, null);
         if(landed)
             g.drawImage(animCharacter, animCharX, animCharY, null);
     }
