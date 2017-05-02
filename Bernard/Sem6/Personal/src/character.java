@@ -17,7 +17,7 @@ public class character{
     BufferedImage image;
 
     //Stats
-    int health = 100;
+    static int health = 100;
 
     public character(){
         try{ //Character
@@ -27,17 +27,19 @@ public class character{
 
     public void move(boolean vertical, int amount){
         if(vertical){
-            if(validMove())
-                y += amount;
+            y += amount;
+            if(!validMove())
+                y -= amount;
         }
         else{
-            if(validMove())
-                x += amount;
+            x += amount;
+            if(!validMove())
+                x -= amount;
         }
     }
 
     public boolean validMove(){
-        if((x < 0) || (x > 1500) || (y < 0) || y > 660) //Check if goomba is out of bounds
+        if((x < 0) || (x > 1500) || (y < 0) || y > 660) //Check if out of bounds
             return false;
         else if(!(map.occupied[x / 10][y / 10].equals("empty"))) //Check if location is alredy filled
             return false;

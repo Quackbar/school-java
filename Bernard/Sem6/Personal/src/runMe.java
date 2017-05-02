@@ -22,10 +22,22 @@ public class runMe extends JFrame implements KeyListener{
     goomba goomba = new goomba();
     runIntro runIntro = new runIntro();
 
+    //Everything for the JMenu
+    JMenuBar menuBar = new JMenuBar();
+    JMenu controls = new JMenu("Controls");
+    JMenuItem move = new JMenuItem("Movement - WASD & Arrow Keys");
+    JMenuItem walls = new JMenuItem("Walls - Z");
+    JMenuItem doors = new JMenuItem("Doors - X");
+
     Timer timer = new Timer();
 
     public runMe(){
         addKeyListener(this);
+        this.setJMenuBar(menuBar);
+            menuBar.add(controls);
+                controls.add(move);
+                controls.add(walls);
+                controls.add(doors);
     }
 
     public void keyReleased(KeyEvent e){}
@@ -137,7 +149,6 @@ public class runMe extends JFrame implements KeyListener{
         timer.scheduleAtFixedRate(new TimerTask(){
             public void run(){
                 for(int i = 0; i < goomba.image.length; i++){
-                    System.out.println("goomba.createLocation");
                     goomba.createLocation(i);
                 }
                 gamePanel.repaint();

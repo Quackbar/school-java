@@ -16,14 +16,14 @@ public class goomba{
     //Locations (Grid is 0,0 to 1510,670
     static Integer[] x = new Integer[5];
     static int[] y = {50, 50, 50, 50, 50};
-    int[] turn = new int[5];
+    static int[] turn = new int[5];
 
     BufferedImage[] image = new BufferedImage[5];
     enum directions{
         up, down, right, left, upRight, upLeft, downRight, downLeft
     }
-    directions dirToChar;
-    directions[] direction = new directions[5];
+    static directions dirToChar;
+    static directions[] direction = new directions[5];
     
     public goomba(){
         try{ //Goomba
@@ -75,7 +75,6 @@ public class goomba{
         turn[i] -= 1;
 
         while(!safe){
-            System.out.println("In While: " + i);
             if(inRange(i, 20))
                 blowGoomba(i);
             else if(inRange(i, 200))
@@ -128,7 +127,6 @@ public class goomba{
                     turn(i);
             }
         }
-        System.out.println(i + " x: " + x[i] + " y: " + y[i]);
     }
 
     public void blowGoomba(int i){

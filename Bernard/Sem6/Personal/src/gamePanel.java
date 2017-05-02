@@ -14,7 +14,7 @@ public class gamePanel extends JPanel{
 
     //Locations (Grid is 0,0 to 1510,670
 
-    JLabel stats = new JLabel("Health: " + character.health + "     Walls(Z): " + map.walls + "    Doors(X): " + map.doors + "    Day: " + map.days);
+    JLabel stats = new JLabel("Health: " + character.health + "     Walls: " + map.walls + "    Doors(X): " + map.doors + "    Day: " + map.days);
 
     public gamePanel(){
         this.add(stats);
@@ -36,7 +36,6 @@ public class gamePanel extends JPanel{
         g.drawImage(character.image, character.x + 201, character.y + 201, null); //Draw character
 
         for(int i = 0; i < goomba.image.length; i++){ //Draw gooombas moving
-            System.out.println("Paint(" + i +") x: " + goomba.x[i] + " y: "+ goomba.y[i]);
             g.drawImage(goomba.image[i], goomba.x[i] + 201, goomba.y[i] + 201, null);
         }
     }

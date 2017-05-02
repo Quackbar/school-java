@@ -15,20 +15,20 @@ public class map{
      *  Locations (Grid is 0,0 to 1510,670)
      */
 
-    ArrayList<Integer> wallX = new ArrayList<>();
-    ArrayList<Integer> wallY = new ArrayList<>();
-    ArrayList<Integer> doorX = new ArrayList<>();
-    ArrayList<Integer> doorY = new ArrayList<>();
+    static ArrayList<Integer> wallX = new ArrayList<>();
+    static ArrayList<Integer> wallY = new ArrayList<>();
+    static ArrayList<Integer> doorX = new ArrayList<>();
+    static ArrayList<Integer> doorY = new ArrayList<>();
 
     //2D array of whats in every coordinate
-    String[][] occupied = new String[151][67];
+    static String[][] occupied = new String[151][67];
 
     //BufferedImage
     BufferedImage grid;
 
     //Stats
-    int walls = 20, doors = 1, days = 1;
-    boolean day = true;
+    static int walls = 20, doors = 1, days = 1;
+    static boolean day = true;
 
     public map(){
         try{ //Grid
