@@ -10,12 +10,12 @@ import java.io.File;
 public class runIntro extends JPanel{
 
     BufferedImage viper, animCharacter;
-    int x = 0, y = 0, animCharX = 150, animCharY = 450;
+    int x = 20, y = 0, animCharX = 150, animCharY = 450;
     boolean landed = false;
 
     public runIntro(){
         try{ //Ship
-           viper = ImageIO.read(new File("./Pictures/viper.gif"));
+           viper = ImageIO.read(new File("./Pictures/viper.png"));
         } catch(Exception e){System.out.println("Could not create viper: " + e.getStackTrace());}
 
         try{ //Animation Character

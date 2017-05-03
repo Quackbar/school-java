@@ -24,7 +24,7 @@ public class map{
     static String[][] occupied = new String[151][67];
 
     //BufferedImage
-    BufferedImage grid;
+    BufferedImage grid, mineEmpty, mineFull;
 
     //Stats
     static int walls = 20, doors = 1, days = 1;
@@ -34,6 +34,13 @@ public class map{
         try{ //Grid
             grid = ImageIO.read(new File("./Pictures/grid.png"));
         } catch(Exception e){System.out.println("Could not create grid: " + e.getStackTrace());}
+
+        try{ //mineEmpty
+            grid = ImageIO.read(new File("./Pictures/mineEmpty.png"));
+        } catch(Exception e){System.out.println("Could not create mineEmpty: " + e.getStackTrace());}
+        try{ //mineFull
+            grid = ImageIO.read(new File("./Pictures/mineFull.png"));
+        } catch(Exception e){System.out.println("Could not create mineFull: " + e.getStackTrace());}
 
         for(int row = 0; row < 151; row++){ //Populate occupied array with "empty"
             for(int col = 0; col < 67; col++){

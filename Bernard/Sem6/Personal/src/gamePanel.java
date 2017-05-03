@@ -23,7 +23,7 @@ public class gamePanel extends JPanel{
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.drawImage(map.grid, 200, 200, null);
-        g.drawImage(runIntro.viper, 0, 250, null);
+        g.drawImage(runIntro.viper, 20, 250, null);
         for(int i = 0; i < map.wallX.size(); i++){ //Draw walls
             g.setColor(Color.BLACK);
             g.fillRect(map.wallX.get(i) + 200, map.wallY.get(i) + 200, 11, 11);
